@@ -9,7 +9,7 @@ from keras.layers import Dropout
 
 
 #Get the Data
-data = pd.read_csv('RelianceTrain.csv')
+data = pd.read_csv('/Datasets/RelianceTrain.csv')
 data = data.fillna(data.mean())
 X = data.iloc[:, [5]].values
 
@@ -64,7 +64,7 @@ model.compile(optimizer = 'adam', loss = 'mean_squared_error', metrics = ['mean_
 model.fit(X_train, y_train, epochs = 100, batch_size = 25)
 
 #Test Data
-data_test = pd.read_csv('RelianceTest.csv')
+data_test = pd.read_csv('/Datasets/RelianceTest.csv')
 XX = data_test.iloc[:, [5]].values
 
 #Prediction
