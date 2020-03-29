@@ -9,7 +9,6 @@ from keras.layers import Dropout
 
 
 #Get the Data
-data = pd.read_csv('Datasets/RelianceTrain.csv')
 data = data.fillna(data.mean())
 data['15MA'] = data['Adj Close'].rolling(15, min_periods = 0).mean()
 X = data.iloc[:, [7]].values
@@ -65,9 +64,11 @@ model.compile(optimizer = 'adam', loss = 'mean_squared_error', metrics = ['mean_
 model.fit(X_train, y_train, epochs = 100, batch_size = 25)
 
 #Test Data
+<<<<<<< HEAD
 data_test = pd.read_csv('Datasets/RelianceTest.csv')
 data_test['15MA'] = data_test['Adj Close'].rolling(15, min_periods = 0).mean()
 XX = data_test.iloc[:, [7]].values
+
 
 #Prediction
 data_total = pd.concat((data['15MA'], data_test['15MA']), axis = 0)
@@ -88,7 +89,7 @@ predicted_stock_price = sc.inverse_transform(predicted_stock_price)
 plt.plot(XX, color = 'red', label = 'Actual Reliance Stock Price')
 plt.plot(predicted_stock_price, color = 'blue', label = 'Predicted Reliance Stock Price')
 plt.title('Reliance Stock Price Prediction')
-plt.xlabel('Time')
+plt.xlabel('Time (in days)')
 plt.ylabel('Stock Price')
 plt.legend()
 plt.show()
