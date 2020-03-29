@@ -9,9 +9,10 @@ from keras.layers import Dropout
 
 
 #Get the Data
-data = pd.read_csv('RelianceTrain.csv')
+data = pd.read_csv('Datasets/RelianceTrain.csv')
 data = data.fillna(data.mean())
-X = data.iloc[:, [5]].values
+data['15MA'] = data['Adj Close'].rolling(15, min_periods = 0).mean()
+X = data.iloc[:, [7]].values
 
 # # Splitting the dataset into the Training set and Test set
 # from sklearn.model_selection import train_test_split
@@ -64,11 +65,12 @@ model.compile(optimizer = 'adam', loss = 'mean_squared_error', metrics = ['mean_
 model.fit(X_train, y_train, epochs = 100, batch_size = 25)
 
 #Test Data
-data_test = pd.read_csv('RelianceTest.csv')
-XX = data_test.iloc[:, [5]].values
+data_test = pd.read_csv('Datasets/RelianceTest.csv')
+data_test['15MA'] = data_test['Adj Close'].rolling(15, min_periods = 0).mean()
+XX = data_test.iloc[:, [7]].values
 
 #Prediction
-data_total = pd.concat((data['Adj Close'], data_test['Adj Close']), axis = 0)
+data_total = pd.concat((data['15MA'], data_test['15MA']), axis = 0)
 inputs = data_total[len(data_total) - len(data_test) - 60:].values
 inputs = inputs.reshape(-1,1)
 inputs = sc.transform(inputs)
